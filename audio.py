@@ -2,6 +2,11 @@
 import pyaudio
 import wave
 import speech_recognition as sr
+import subprocess
+
+def echo(text):
+    subprocess.call("PowerShell -Command Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('"+ text +"')", shell=True)
+
 
 def play_audio(filename):
     chunk = 1024
@@ -50,5 +55,6 @@ def initSpeech():
         
     print("Your Command: ")
     print(command)
+    echo('You said: ' + command)    #   change speak to say ********
     
 initSpeech()
