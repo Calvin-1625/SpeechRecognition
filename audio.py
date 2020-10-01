@@ -3,6 +3,11 @@ import pyaudio
 import wave
 import speech_recognition as sr
 import subprocess
+from commands import Commander
+
+
+running = True
+
 
 def echo(text):
     subprocess.call("PowerShell -Command Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('"+ text +"')", shell=True)
@@ -32,6 +37,7 @@ def play_audio(filename):
 #play_audio("./audio/Fart.wav")
     
 r = sr.Recognizer()
+cmd = Commander()
 
 def initSpeech():
     print("Listening .... ")
@@ -55,6 +61,12 @@ def initSpeech():
         
     print("Your Command: ")
     print(command)
-    echo('You said: ' + command)    #   change speak to say ********
+    if command == "quit":
+        running = False
+        
+    cmd.discover(command)
+    #echo('You said: ' + command)    #   change speak to say ********
     
-initSpeech()
+    
+while running == True:
+    initSpeech()
